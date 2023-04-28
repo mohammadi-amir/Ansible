@@ -1,0 +1,20 @@
+---
+
+- name: Packets installlation 
+  hosts: service
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        
+    - name: Upgrade packages
+      apt:
+        upgrade: yes
+
+    - name: install nginx & docker.io
+      apt:
+        name:
+         - nginx
+         - docker.io
+         - curl
