@@ -32,5 +32,7 @@
       #  src: nginx_frontend.conf
        # dest: /etc/nginx/sites-enabled/default
 
+       
+
     - name: Restart nginx
       service: name=nginx state=restarted
