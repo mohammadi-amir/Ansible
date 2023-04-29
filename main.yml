@@ -17,4 +17,5 @@
         name:
          - nginx
          - docker.io
+         - curl
          
