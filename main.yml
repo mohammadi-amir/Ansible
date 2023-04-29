@@ -1,21 +1,36 @@
 ---
-
-- name: Packets installlation 
-  hosts: service
-  become: true
+- hosts: all
+  become: yes
   tasks:
-    - name: Update apt cache
+    - name: Update apt cache and make sure packages are installed
       apt:
+        name: 
+          - nginx
+          - docker.io
+          - docker-compose
+          - curl
         update_cache: yes
         
-    - name: Upgrade packages
-      apt:
-        upgrade: yes
+- name: setup webserver
+  become: true
+  hosts: webserver
+  tasks:
+    - name: users | adding docker users (for use without sudo)
+      user:
+        name: "deploy"
+        append: yes
+        groups: docker
+        
+    - name: Set authorized key took from file
+      authorized_key:
+        user: deploy
+        state: present
+        key: "{{ lookup('file', './sshkey.pub') }}"
 
-    - name: install nginx & docker.io
-      apt:
-        name:
-         - nginx
-         - docker.io
-         - curl
-         
+    - name: copy reverse proxy config
+      copy:
+        src: nginx_frontend.conf
+        dest: /etc/nginx/sites-enabled/default
+
+    - name: Restart nginx
+      service: name=nginx state=restarted
