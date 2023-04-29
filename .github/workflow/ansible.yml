@@ -19,5 +19,5 @@ jobs:
           # Optional, literal inventory file contents
           inventory: |
             [webserver]
-            20.160.229.65 ansible_user=azureuser    
+            40.68.10.140 ansible_user=azureuser    
     
