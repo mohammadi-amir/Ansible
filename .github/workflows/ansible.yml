@@ -14,7 +14,7 @@ jobs:
           playbook: main.yml
           # Optional, directory where playbooks live
           directory: ./
-          # Optional, SSH private key
+          # Optional, ,SSH private key
           key: ${{secrets.SSH_PRIVATE_KEY}}
           # Optional, literal inventory file contents
           inventory: |
