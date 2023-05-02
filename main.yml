@@ -31,5 +31,10 @@
       copy:
         src: nginx_frontend.conf
         dest: /etc/nginx/sites-enabled/default
+    - name: copy csv data 
+      copy:
+        src: data.csv
+        dest: /home/deploy/data.csv
+        force: no 
     - name: Restart nginx
       service: name=nginx state=restarted
