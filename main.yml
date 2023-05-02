@@ -39,12 +39,12 @@
         username: amircr
         password: i15biTfQ7ehCjOrJMy73YGZBBSB24e2W7qG0+C1sTf+ACRAz+O0s
         reauthorize: yes
-        
+
     - name: Re-create a frontend container
       docker_container:
           name: ttd_frontend
           image:  amircr.azurecr.io/ttd_frontend:4
-          state: present
+          state: started
           recreate: yes
           ports:
             - 8080:80
@@ -52,7 +52,7 @@
       docker_container:
           name: ttd_backend
           image:  amircr.azurecr.io/ttd_backend:8
-          state: present
+          state: started
           recreate: yes
           ports:
             - 3000:3000   
