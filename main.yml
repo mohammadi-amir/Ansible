@@ -10,6 +10,39 @@
           - docker-compose
           - curl
         update_cache: yes
+    - name: Download Long Term Jenkins release
+      get_url:
+       url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+       dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Import jenkins key from url
+      ansible.builtin.rpm_key:
+       state: present
+       key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+    - name: apt update
+      apt:
+       name: '*'
+       state: latest
+
+    - name: Install java
+      apt:
+        name: java-11-openjdk-devel
+        state: present
+
+    - name: Install jenkins
+      apt:
+        name: jenkins
+        state: latest
+
+    - name: daemon-reload to pick up config changes
+      ansible.builtin.systemd:
+       daemon_reload: yes
+
+    - name: Start jenkins
+      ansible.builtin.systemd:
+        name: jenkins
+        state: started      
         
 - name: setup webserver
   become: true
