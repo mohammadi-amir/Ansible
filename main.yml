@@ -22,7 +22,7 @@
 #            Richtet einen öffentlichen Schlüssel (sshkey.pub) für den Benutzer deploy ein.                                # 
 #        Nginx-Konfiguration:                                                                                              #
 #            Kopiert die Konfigurationsdatei für den Nginx-Reverse-Proxy und startet Nginx neu.                            # 
-#                                                                                                                           #
+#                                                                                                                          #
 ############################################################################################################################
 
 
@@ -94,18 +94,18 @@
         src: data.csv
         dest: /home/deploy/data.csv
         force: no 
-
+ # Ich habe meine Container aus der Azure Container Registry abgerufen. Dafür wird ein ACR-Dienst in der Azure Cloud benötigt.
     - name: Log into private registry and force re-authorization
       docker_login:
         registry: amircr.azurecr.io
         username: amircr
-        password: i15biTfQ7ehCjOrJMy73YGZBBSB24e2W7qG0+C1sTf+ACRAz+O0s
+        password: "{{ ac_registry_password }}"
         reauthorize: yes
 
     - name: Re-create a frontend container
       docker_container:
-          name: ttd_frontend
-          image:  amircr.azurecr.io/ttd_frontend:4
+          name: td_frontend
+          image:  amircr.azurecr.io/td_frontend:4
           state: started
           recreate: yes
           ports:
@@ -113,11 +113,11 @@
     - name: Re-create a backend container
       docker_container:
           name: ttd_backend
-          image:  amircr.azurecr.io/ttd_backend:8
+          image:  amircr.azurecr.io/td_backend:8
           state: started
           recreate: yes
           ports:
-            - 3000:3000   
+            - 5000:5000   
           volumes:
             - /home/deploy/data.csv/app/data.csv   
 
