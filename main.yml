@@ -1,3 +1,32 @@
+############################################################################################################################
+# Ansible Playbook: Automatisierung von Jenkins, Docker und Nginx Setup                                                    #
+#                                                                                                                          #
+# Dieses Playbook richtet eine Serverumgebung ein, um Jenkins, Docker-basierte Webanwendungen und                          #
+# einen Nginx-Reverse-Proxy zu konfigurieren. Es ist in zwei Abschnitte unterteilt:                                        #
+#                                                                                                                          # 
+#   Allgemeine Konfiguration (hosts: all):                                                                                 #
+#        Installiert erforderliche Pakete wie nginx, docker.io, docker-compose, und curl.                                  #
+#        Richtet Jenkins ein, indem:                                                                                       #
+#            Das Jenkins-Repository heruntergeladen wird.                                                                  #
+#            Der Jenkins-GPG-Schlüssel importiert wird.                                                                    #
+#            Java 11 und Jenkins selbst installiert werden.                                                                # 
+#            Der Jenkins-Dienst gestartet wird.                                                                            #   
+#        Aktualisiert das System und führt daemon-reload durch, um Änderungen zu übernehmen.                               #
+#                                                                                                                          #
+#    Webserver-Konfiguration (hosts: webserver):                                                                           #   
+#        Docker-Konfiguration:                                                                                             #
+#            Fügt einen Benutzer deploy zur Docker-Gruppe hinzu, damit dieser Docker ohne sudo verwenden kann.             #
+#            Authentifiziert sich bei einer privaten Docker-Registry und startet Frontend- und Backend-Docker-Container.   #
+#            Kopiert eine CSV-Datendatei für das Backend als Volume.                                                       #
+#        SSH-Zugriff:                                                                                                      #  
+#            Richtet einen öffentlichen Schlüssel (sshkey.pub) für den Benutzer deploy ein.                                # 
+#        Nginx-Konfiguration:                                                                                              #
+#            Kopiert die Konfigurationsdatei für den Nginx-Reverse-Proxy und startet Nginx neu.                            # 
+#                                                                                                                           #
+############################################################################################################################
+
+
+
 ---
 - hosts: all
   become: yes
