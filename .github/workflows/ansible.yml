@@ -1,5 +1,5 @@
 name: Ansible
-on: #[push]
+on: [push]
 
 jobs: 
   deploy:
